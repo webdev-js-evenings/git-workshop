@@ -11,6 +11,10 @@ kurzem vývojem mobilních aplikací v Ionicu.
 
 Teď jsem na řadě já Vojta Tranta(@iVojta), JS vývojář v Avocode.
 
+Po mně následuje Petr a jeho kurz o automatizaci vývoje.
+
+Za to, že umím git vděčím hlavně chlapcům @lukas_rychtecky a @jankuca
+
 ## Co se naučíte
 - vysvětlíme si k čemu je GIT
 - co je to **commit**
@@ -42,17 +46,21 @@ Commit je jeden z lístků stromu.
 Commit se skládá z:
 - jména autora
 - časového údaje o vytvoření
-- Commit ID
+- commit ID
+- commit message
 - popis změny (diff)
 - ukazetele na předka
 
 Nejdůležitější jsou:
-- Commit ID
+- commit ID
+- commit message
 - popis změny
 - ukazatel na předka
 
 
 Commit ID je string, který unikátní identifikuje commit. Všechna porovnání se dějou jen a pouze přes Commit ID (hash).
+
+Commit message je zpráva, kterou píše autor, má lidsou řečí popisovat, co daný commit dělá.
 
 Commit si pamatuje jenom jednoho svého předka (stromová struktura s orientovanými hranami).
 
@@ -89,7 +97,7 @@ $ git status
 $ touch notes.md
 ```
 
-Pokud znova spustíme `git status` měla by se zobrazit změny `new file: notes.md`
+Pokud znova spustíme `git status` měla by se zobrazit změny `new file: notes.md`. Tyhle změny se zobrazují vždy oproti současnému stavu.
 
 Tato změna bude **unstaged**. Unstaged změny jsou takové, které nejsou připravené ke commitnutí.
 
@@ -136,6 +144,13 @@ Vyzkoušet - zapsat něco do souboru `notes.md` a uložit ho a pak dát `git s`.
 
 Tuhle změnu ale nechceme tudíž se jí zbavíme - buďto to amatérsky vymažeme v tom daném souboru nebo přes gitovej příkaz **checkout**.
 
+Nejprve si ale zobrazíme změny tak, jak je zachytil git. K tomu je příkaz **diff**:
+```
+$ git diff // ukáže, že jsme něco napsali do souboru - zelené řádky s plusy
+// pokud chceme zobrazit stagnuté změny, musíme přidat přepínač --staged
+//odejdeme z VIMu shift + Z Z
+```
+
 ```
 // zrušíme změny v souboru (!pozor, checkout toho umí mraky)
 $ git checkout notes.md
@@ -163,13 +178,88 @@ A nikdo neví, jak do něj něco napsat nebo hůř, jak se z něj dostat proto:
 ```
 // zapisovací mód
 $ i
-// ofiko cesta je myslim :q!
+```
+Nyní napíšeme nějakou commit message - to, co jsme udělali. V našem případě asi něco jako:
+```
+přidání souboru pro poznámky notes.md
+```
+A pak pryč z VIMu
+
+```
+// ofiko quit je myslim :q!
 //jinak
 $ ESC
 $ shift + Z Z
 ```
 
 Dá se to nějak přenastavit, já tam mám Sublime, ale už nevim, jak jsem to udělal cc @jankuca
+
+Hotovo, commit udělán, co teď? Jdeme dál commitovat!
+
+Prve se ale mrkneme, co jsme udělali. K zobrazení commitů slouží příkaz **show**:
+
+**GOTCHA:*** Proč nepoužíjeme příkaz `git diff`, když už ho umíme? Protože tady se jedná už o změny v commitu. Diff slouží pro zobrazení změn, které nejsou commitnuté.
+
+```
+$ git show <? commit id > // bez poslední parametru ukazuje vždy poslední commit
+```
+
+Vidíme změnu v původním commitu, čas, autora, commit message - to je náš první commit, jdeme ho teda smazat!
+
+No, smazat. Ono smazat commit je poměrně dost těžká práce. Ukážeme si.
+
+nejdřív se ukážeme seznam všech commitů - příkaz **log**, které jsme doteď vytvořili - nelekejte se, jsou tam i moje původní a to je dobře.
+
+```
+// zobrazit seznam commitů na aktuální branch
+$ git log
+// hezčí zobrazí seznamu
+$ git log --pretty=oneline -n 50 --graph --abbrev-commit
+// uděláme na něj alias
+$ git config --globa alias.l 'log --pretty=oneline -n 50 --graph --abbrev-commit'
+//vyzkoušíme
+$ git l
+
+```
+Git log ukazuje nahoře nejaktuálnější commit - poslední vytvořený a dole pak jsou ty nejstarší. Měl by být vidět nejnovější ten commit, který jsme právě vytvořili.
+
+Jdeme ho smazat.
+
+Nejjednoduší "smazání" je přes příkaz **reset**:
+```
+// $ git reset < odkud kam >
+// smazání posledního commitu (nejaktuálnějšího)
+$ git reset --hard head~1 // odeber jeden nejnovější commit (na dané větvi)
+// případně
+// $ git rest --hard head~2 // odeber dva nejnovější commity (na dané větvi)
+```
+Nyní se podíváme na stav commitů, jak jdou za sebou `git l`. Vidíme, že náš commit je pryč, smazaný konec světa, jdeme to dělat znova!
+
+**GOTCHA:** Smazat něco v Gitu je těžká práce, fakt hodně těžká. Smazat commit je z toho asi nejtěžší. Jak smazat ho úplně. Git to dělá po nějaké době sám, maže ty commity, které nejsou u žádné branche (vysvětlíme). Chová se jako garbage collector a prostě maže to, k čemu není přístup.
+
+Takže Vojto, ten commit je smazaný? Ne, není. Jenom jsme ho odebrali z větve, snadno ho dáme zpátky. Je spousta cest, jak to udělat.
+
+V našem případě si můžeme krásně zkusit příkaz **cherry-pick** (cherry-pick prostě vezme odněkud commit a přidá vám ho pod ruku, jak kdybyste ho právě udělali ručně):
+
+```
+// cherry-pick je opravdu jednoduchý, prostě vezme commit (jedno odkud) a nastaví ho jako poslední na aktuální branch
+$ git cherry-pick < commit id >
+```
+
+Zkontrolujeme, že je vše zpátky, jak má být aliasovaným příkazem `git l`. Juuhůů!
+
+Takže umíme:
+- udělat změnu (prostě napsat něco nového do souboru, vytvořit soubor...)
+- smazat unstaged změnu
+- přidat změnu do stage pro commit
+- smazat změnu ze stage pro commmit
+- vytvořit commit
+- jít do insert modu ve VIMu
+- odejít z VIMu
+- smazat poslední commity z branche
+- cherry-picknout commit zpátky
+
+Procvičit! Celé znovu!!
 
 
 
