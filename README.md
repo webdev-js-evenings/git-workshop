@@ -29,13 +29,13 @@ Teď jsem na řadě já Vojta Tranta(@iVojta), JS vývojář v Avocode.
 ## Co je to Commit
 Commit je základní stavební kámen Gitu, kolem commitu se točí naprosto všechno. Commit zabalí změnu provedenou v textu tak, aby na ní bylo možné navazovat, aby jí bylo možné libovolně přesouvat nebo jí měnit.
 
-Git je jedna kostička z lega.
+Commit je jedna kostička z lega. Git repozitář je pak Legoland.
 
 [![LEGO](http://www.kmart.com.au/wcsstore/Kmart/images/espots/lego-151119-hero-banner-yellowfeature-mobile.jpg)](Lego)
 
 Commit uchová jakoukoli změnu v textu. Je jedno, jestli se změní název souboru, jestli se někam přesune, jestli se změní jeden řádek nebo tisíc, každá uložená změna se zanese.
 
-Commit je neměnitelný (neměnitelný) - nedá se změnit, pouze se dá nahradit jiným.
+Commit je neměnitelný (immutable) - nedá se změnit, pouze se dá nahradit jiným.
 
 Commit je jeden z lístků stromu.
 
@@ -69,15 +69,21 @@ Popise změny diff řiká, že se například smazal tenhle řádek, že nakonec
 
 https://github.com/js-evenings/git-workshop
 
-**Forknutí** znamená, že si repozitář zkopírujeme ke svému účtu na Githubu (GitLabu, Bitbucketu...), přičemž si naše kopie pamatuje svého původního bratra, ale chová se jako vlastní adresář.
+**Forknutí** znamená, že si repozitář zkopírujeme ke svému účtu na Githubu (GitLabu, Bitbucketu...), přičemž si naše kopie pamatuje svého původního bratra, ale chová se jako samostatný adresář, který bychom si sami vytvořili.
 
-Otevřeme si Git Bash nebo Terminal a **naklonujeme** si repozitář (to znamená, že si ho zkopírujeme z internetu do počítače) - URL je forku.
+Otevřeme si Git Bash nebo Terminal a **naklonujeme** si repozitář (to znamená, že si ho zkopírujeme z internetu do počítače) - URL je u forku.
+
+Hurá do terminálu:
+```
+$ cd /tam/kam/potřebujeme
+$ git clone https://github.com/< tvoje username >/git-workshop.git < případně název složky, kam to chceš >
+```
 
 Zkusíme si základní příkazy:
 ```
 // zobrazení stavu adresáře, ze začátku neukáže nic, pře jsme ještě nic neudělali
-```
 $ git status
+```
 ```
 // vytvoříme si textový soubor pro poznámky v markdownu (.md)
 $ touch notes.md
@@ -115,7 +121,7 @@ Unstaged změny nejdou commitnout:
 $ git commit -m "tohle je přidání souboru" // nic se nestane
 ```
 
-Prve je potřeba si změny, se kterýma počítáme do commitu - to jsou ty hezké učesané, odložit do **stage** fáze před commit. Staged změny jsou ty, které budou commitnuty, jakmile napíšeme příkaz `git commit`. Přidání do stage se dělá pomocí příkazu:
+Prve je potřeba si změny, se kterýma počítáme do commitu, - to jsou ty hezké učesané, odložit do **stage** fáze před commit, prostě si je tam hezky připravujeme. Staged změny jsou ty, které budou commitnuty, jakmile napíšeme příkaz `git commit`. Přidání do stage se dělá pomocí příkazu:
 
 ```
 // přidání do stage pro commit - příprava pro commit, uschování změn
@@ -140,8 +146,30 @@ Pokud chceme vytáhnout změnu, kterou jsme přidali do stage pro commit přes `
 
 ```
 $ git reset notes.md // vrátí stage změnu zpět do unstaged - pokud uděláme git commit, tak se změna necommitne.
+
+// nyní bych mohl udělat
+$ rm notes.md
+// a všechny změny by byly zase v čoudu
+```
+No tak to už umíme, tak si pojďme ten soubor commitnout příkazem:
+
+```
+$ git add --all
+
+$ git commit
+```
+**GOTCHA:** defaultní editor pro úpravu commit messages a vůbec všeho textového v Gitu je VIM.
+A nikdo neví, jak do něj něco napsat nebo hůř, jak se z něj dostat proto:
+```
+// zapisovací mód
+$ i
+// ofiko cesta je myslim :q!
+//jinak
+$ ESC
+$ shift + Z Z
 ```
 
+Dá se to nějak přenastavit, já tam mám Sublime, ale už nevim, jak jsem to udělal cc @jankuca
 
 
 
