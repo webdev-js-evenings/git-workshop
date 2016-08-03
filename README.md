@@ -27,10 +27,22 @@ Za to, že umím git vděčím hlavně chlapcům @lukas_rychtecky a @jankuca
   - git init
   - git remote add
   - checkout
+- pokročilé operace
+  - rebase
+  - merge
+  - interactive rebase
+  - fixup
+  - squash
+  - reword
+  - reflog
 
 
+## K čemu to je dobrý?
+Představte si, že na projektu pracuje tisíc lidí. Co když mají všichni najednou otevřený jeden soubor? Nebo jsou všichni na jednom síťovém uložišti...?
 
 ## Co je to Commit
+[![Commits](http://nvie.com/img/merge-without-ff@2x.png)](Commits)
+
 Commit je základní stavební kámen Gitu, kolem commitu se točí naprosto všechno. Commit zabalí změnu provedenou v textu tak, aby na ní bylo možné navazovat, aby jí bylo možné libovolně přesouvat nebo jí měnit.
 
 Commit je jedna kostička z lega. Git repozitář je pak Legoland.
@@ -39,6 +51,8 @@ Commit je jedna kostička z lega. Git repozitář je pak Legoland.
 
 Commit uchová jakoukoli změnu v textu. Je jedno, jestli se změní název souboru, jestli se někam přesune, jestli se změní jeden řádek nebo tisíc, každá uložená změna se zanese.
 
+Commit by měl být co možné nejlepší a měl by dávat sémanticky smysl. To znamená, že každý commit by měl mít nějaký jeden cíl a ten by měl plnit. Ne že tam budou změny které dohromady nedávají smysl.
+
 Commit je neměnitelný (immutable) - nedá se změnit, pouze se dá nahradit jiným.
 
 Commit je jeden z lístků stromu.
@@ -46,26 +60,28 @@ Commit je jeden z lístků stromu.
 Commit se skládá z:
 - jména autora
 - časového údaje o vytvoření
-- commit ID
+- commit ID (ad3a5b4)
 - commit message
 - popis změny (diff)
 - ukazetele na předka
 
 Nejdůležitější jsou:
 - commit ID
-- commit message
+- commit message - píšou se většinou ručně
 - popis změny
 - ukazatel na předka
 
 
-Commit ID je string, který unikátní identifikuje commit. Všechna porovnání se dějou jen a pouze přes Commit ID (hash).
+**Commit ID** je string - strašně dlouhá unikátní změť znaků, pro operaci s commity se používá prvních 7 znaků. Všechna porovnání se dějou jen a pouze přes Commit ID (hash), neřeší se žádnej čas, jméno autora, prostě dva commity jsou stejné tehdy, když mají stejné commit id.
 
-Commit message je zpráva, kterou píše autor, má lidsou řečí popisovat, co daný commit dělá.
+**Commit message** je zpráva, kterou píše autor, má lidskou řečí popisovat, co daný commit dělá - tu si musíte napsat sami.
 
-Commit si pamatuje jenom jednoho svého předka (stromová struktura s orientovanými hranami).
+**ukazatel na předka** - commit si pamatuje jenom jednoho svého předka (stromová struktura s orientovanými hranami).
 
-Popise změny diff řiká, že se například smazal tenhle řádek, že nakonec souboru byl přidán tenhle řádek, že řádek byl nahrazen tímhle, že byl soubor smazán, že byl soubor přesunut atd.
+**Popis změny** diff řiká, že se například smazal tenhle řádek, že nakonec souboru byl přidán tenhle řádek, že řádek byl nahrazen tímhle, že byl soubor smazán, že byl soubor přesunut atd.
 
+
+Tady máte schémátko, jak vypadá commity, když jdou za sebou...
 ```
 [ Initial Commit 4fs98hgd ]----[ Commit sdv42jhj5 ]----[ Commit 4gt65kj ]---[ Commit f87bvmwo5 ]
 ```
@@ -99,7 +115,9 @@ $ touch notes.md
 
 Pokud znova spustíme `git status` měla by se zobrazit změny `new file: notes.md`. Tyhle změny se zobrazují vždy oproti současnému stavu.
 
-Tato změna bude **unstaged**. Unstaged změny jsou takové, které nejsou připravené ke commitnutí.
+Tato změna bude **unstaged** . Unstaged změny jsou takové, které nejsou připravené ke commitnutí.
+
+Krom toho bude soubor `notes.md` v terminologii Gitu brán jako **untracked**. Untracked soubor je takový soubor, který ještě nikdy nebyl přidán di Gitu. Tudíž Git sice vidí, že tam takový soubor je, ale nesleduje zatím jeho změny, krom toho, že vidí, že tam ten soubor je.
 
 V tomhle případě je změnou vytvoření nového souboru. Git dokáže jednoduše rušit unstaged změny přes příkaz `git checkout`, ale to nefunguje na přidání složek nebo souborů, ty se normálně mažou pomocí `rm`.
 ```
@@ -233,13 +251,17 @@ $ git reset --hard head~1 // odeber jeden nejnovější commit (na dané větvi)
 // případně
 // $ git rest --hard head~2 // odeber dva nejnovější commity (na dané větvi)
 ```
+**HEAD**? Řikáte si, co je to HEAD? Head je označení pro poslední commit větve nebo prostě commit, na kterém jste nastaveni. Proto mám poznamenáno:
+
+`Odeber jeden nejnovější commit tj.: head~1 - od indexu 0 - 1` Pokud bych napsal `git reset --hard head`, tak se nic nestane, protože říkám: `odeber commit od 0 do 0`
+
 Nyní se podíváme na stav commitů, jak jdou za sebou `git l`. Vidíme, že náš commit je pryč, smazaný konec světa, jdeme to dělat znova!
 
-**GOTCHA:** Smazat něco v Gitu je těžká práce, fakt hodně těžká. Smazat commit je z toho asi nejtěžší. Jak smazat ho úplně. Git to dělá po nějaké době sám, maže ty commity, které nejsou u žádné branche (vysvětlíme). Chová se jako garbage collector a prostě maže to, k čemu není přístup.
+**GOTCHA:** Smazat něco v Gitu je těžká práce, fakt hodně těžká. Smazat commit je z toho asi nejtěžší. Git po nějaké době maže sám ty commity, které nejsou u žádné branche (vysvětlíme). Chová se jako garbage collector a prostě maže to, k čemu není přístup.
 
 Takže Vojto, ten commit je smazaný? Ne, není. Jenom jsme ho odebrali z větve, snadno ho dáme zpátky. Je spousta cest, jak to udělat.
 
-V našem případě si můžeme krásně zkusit příkaz **cherry-pick** (cherry-pick prostě vezme odněkud commit a přidá vám ho pod ruku, jak kdybyste ho právě udělali ručně):
+V našem případě si můžeme krásně zkusit příkaz **cherry-pick** (cherry-pick prostě vezme odněkud commit a přidá vám ho pod ruku (na vrchol branch a posune tak ukazatel HEAD), jak kdybyste ho právě udělali ručně):
 
 ```
 // cherry-pick je opravdu jednoduchý, prostě vezme commit (jedno odkud) a nastaví ho jako poslední na aktuální branch
@@ -261,7 +283,35 @@ Takže umíme:
 
 Procvičit! Celé znovu!!
 
+```
+$ cd ..
+$ rm -rf git-workshop
+// znova!
+```
 
+### Gitignore
+Btw. stává se, že se do Gitu přimotaj soubory, které tam nechcete. Typick na Macu je to soubor `.DS_Store` (na Windows zase `Thumbs.db`), do kterého OS X přidává nějaké kokotiny o aktuální složce. Tyhle soubory jde jednoduše ignorovat pomocí souboru `.gitignore`.
+
+Takže si ho vytvoříme a dáme si do něj třeba ten `.DS_Store`:
+```
+$ touch .gitignore
+$ vim .gitignore
+// napsat .DS_Store
+// dají se přidávat i složky nebo cesty:
+// moje-slozka/
+// cesta/k/moji/slozce
+```
+
+Pokud jste už přidali soubor, který nechcete mít v Gitu, nezoufejte. Gitu se dá snando říct, aby ho přestal sledovat (**trackovat**) a pak ho začal ignorovat.
+
+Avšak logicky soubory v `.gitignore`, které jsou už commitnuté jsou nadále sledované. `.gitignore` odignoruje pouze soubory, které jsou untracked (nebyly zatím nikdy přidány přes `git add ...`)
+
+Smazat již trackované soubory je snadné:
+```
+$ git rm --cached < název souboru >
+```
+
+Blbý je, pokud je tenhle soubor už commitnutej, to se pak musí z vyzobnout z commitu, který ho přidal - ukážeme si.
 
 
 
