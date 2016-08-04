@@ -209,8 +209,22 @@ A pak pryč z VIMu
 $ ESC
 $ shift + Z Z
 ```
-
 Dá se to nějak přenastavit, já tam mám Sublime, ale už nevim, jak jsem to udělal cc @jankuca
+
+Jasně, nikoho nebaví se furt přepínat do VIMu. Proto existuje zkratka, kterou používám:
+```
+$ git commit -m "commit messsage"
+```
+A rovnou si na ní uděláme aliasík, ne? Co takle, kdyby `git cm "commit message"` bylo to samé?
+```
+$ git confit --globa alias.cm 'git commit -m'
+```
+Vyzkoušíme si:
+```
+// udělat změnu
+$ git add notes.md
+$ git cm 'moje message'
+```
 
 Hotovo, commit udělán, co teď? Jdeme dál commitovat!
 
@@ -224,6 +238,7 @@ $ git show <? commit id > // bez poslední parametru ukazuje vždy poslední com
 
 Vidíme změnu v původním commitu, čas, autora, commit message - to je náš první commit, jdeme ho teda smazat!
 
+#### Smazání commitu
 No, smazat. Ono smazat commit je poměrně dost těžká práce. Ukážeme si.
 
 nejdřív se ukážeme seznam všech commitů - příkaz **log**, které jsme doteď vytvořili - nelekejte se, jsou tam i moje původní a to je dobře.
@@ -287,6 +302,51 @@ Procvičit! Celé znovu!!
 $ cd ..
 $ rm -rf git-workshop
 // znova!
+```
+
+### Pokročilé operace
+
+Často se stává něco jako `Do piči, na tohle jsem zapomněl` nebo `Dopiči, tohle jsem tam commitnul blbě, to musim opravit.`
+
+#### Úprava commitu
+aka. `Dopiči, tohle jsem tam commitnul blbě, to musim opravit.`
+Tak co vás napadá jako první možnost opravy commitu? Udělat novej?
+
+To je taky možnost, ale, nejjednoduší způsob, jak opravit nejaktuálnější commit je přes **amend**.
+
+#### Amend
+Uděláme pár změn a pak vytvoříme soubor `ten-tu-nema-byt.js`. A všechno commitneme (to už umíme)!
+
+Teď si každej řekne "Do piči, ten soubor `ten-tu-nema-byt.js` tam neměl být, ten sem si omylem vytvořil a commitnu!!!"
+
+Jak to smáznout z commitu? Mno.
+
+Jak jsem pravil, commit je neměnitelný - (immutable), tudíž commit jako takový nejde změnit, jde pouze nahradit jiným - snad nekecám. To je nám ale celkem šumák, protože výsledek je stejný. Kolikrát to ani člověk nepozná, neboť se u commitu třeba jenom změnit `commit id`.
+
+Takže **amend**:
+```
+// smažeme soubor, co nechceme - normální změna
+$ rm ten-tu-nema-byt.js
+// přidáme normálně do stage pro commit
+$ git add ten-tu-nema-byt.js
+// teď už neuděláme klasický commit, nýbrž
+$ git commit --am --no-edit
+```
+
+**--am** nebo též **--amend** říká "tyhle změny přidej do předchozího commitu tj. nevytvářej nový"
+**--no-edit** říká, že nechceme měnit původní commit message, ale chceme ponechat tu z předchozího commitu. Pokud bychom toto vynechali, tak by vyskočil VIM a to je zbytečná práce.
+
+Šup s tím do aliasu:
+```
+$ git confit --global alias.cam 'commit --am --no-edit'
+```
+
+
+
+Tak, proč ne, že jo? Zkusme si to - uděláme commit, který změní název souboru `notes.md` na `nove-notes.md`.
+```
+$ mv notes.md nove-notes.md
+$ git add --all && git commit -m "zmena nazvu notes.md na nove-notes.md"
 ```
 
 ### Gitignore
