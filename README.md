@@ -253,7 +253,7 @@ $ git log
 // hezčí zobrazí seznamu
 $ git log --pretty=oneline -n 50 --graph --abbrev-commit
 // uděláme na něj alias
-$ git config --globa alias.l 'log --pretty=oneline -n 50 --graph --abbrev-commit'
+$ git config --globa alias.l 'log --pretty=oneline --graph --abbrev-commit --branches --decorate -n 100'
 //vyzkoušíme
 $ git l
 
@@ -280,6 +280,7 @@ Nyní se podíváme na stav commitů, jak jdou za sebou `git l`. Vidíme, že n�
 
 Takže Vojto, ten commit je smazaný? Ne, není. Jenom jsme ho odebrali z větve, snadno ho dáme zpátky. Je spousta cest, jak to udělat.
 
+#### Cherry-pick
 V našem případě si můžeme krásně zkusit příkaz **cherry-pick** (cherry-pick prostě vezme odněkud commit a přidá vám ho pod ruku (na vrchol branch a posune tak ukazatel HEAD), jak kdybyste ho právě udělali ručně):
 
 ```
@@ -301,6 +302,21 @@ Takže umíme:
 - cherry-picknout commit zpátky
 
 Procvičit! Celé znovu!!
+**Úkoly**: Vše kontrolovat přes `git s` nebo `git l`!!!
+- vytvořit soubor `cvicime.md`
+- přidat soubor do stage pro commit
+- odebrat ze stage pro commit
+- smazat soubor
+- přidat soubor
+- přidat do stage pro commit
+- commit s message `pridali jsme soubor cvicime.md pro cviceni`
+- udělat změny v souboru
+- smazat změny přes git
+- udělat znovu změny
+- přidat změny do stage pro commit
+- commitnout změny s message `cvicebni zmeny v souboru cvicime.md`
+- smazat oba dva commity najednou
+- dostat přes Git je zpátky
 
 ```
 $ cd ..
@@ -338,11 +354,11 @@ $ git add ten-se-ma-jmenovat-jinak.js
 $ git commit --am
 ```
 
-**--am** nebo též **--amend** říká "tyhle změny přidej do předchozího commitu tj. nevytvářej nový"
+`--am` nebo též `--amend` říká "tyhle změny přidej do předchozího commitu" tj. nevytváří se nový commit, změny jsou jen přilepeny k aktálnímu.
 
-**--no-edit** říká, že nechceme měnit původní commit message, ale chceme ponechat tu z předchozího commitu. Pokud bychom toto vynechali, tak by vyskočil VIM a to je zbytečná práce.
+`--no-edit` říká, že nechceme měnit původní commit message, ale chceme ponechat tu z předchozího commitu. Pokud bychom toto vynechali, tak by vyskočil VIM a to je zbytečná práce.
 
-Pokud nepoužijeme `--no-edit` tak pomocí `git commit --am` můžeme jednoduše upravovat commit message posledního commitu.
+Pokud nepoužijeme `--no-edit` tak pomocí `git commit --am` můžeme jednoduše upravovat **commit message** posledního commitu.
 
 Šup s tím do aliasu:
 ```
@@ -404,7 +420,124 @@ Smazat již trackované soubory je snadné:
 $ git rm --cached < název souboru >
 ```
 
-Blbý je, pokud je tenhle soubor už commitnutej, to se pak musí z vyzobnout z commitu, který ho přidal - ukážeme si.
+Blbý je, pokud je tenhle soubor už commitnutej, to se pak musí z vyzobnout z commitu, který ho přidal - to umí `git reset --soft`, že?
 
+## Branching
+Větvení je další esenciální featura Gitu.
+
+Každý Commit má jenom jednoho předka, ale nikde není psáno, že jeden commit nemůže mít několik potomků. Commity se sdružují do stromové struktury:
+
+[![GitBranch](https://www.drupal.org/files/repositorydiagram.png)](Branch)
+
+Pokud vytvoříme v Gitu branch (větev) tak umožňujeme, aby jeden Commit měl více potomků a tím se nám vývoj větví.
+
+### K čemu to je dobrý?
+Představme si, že chceme mít naše poznámky v angličtině. Do teď jsme si je psali česky. Jak to udělat, abychom to měli i v angličtině? No, pokud máme jenom jednu větev, tak jediný způsob je udělat commity, které češtinu přeloží do angličtiny, ale tím pádem ztratíme čestinu, která bude utopená někde v historii.
+
+Nejlepší by bylo zároveň dál psát česky a zároveň překládat češtinu do angličtiny. Prostě vytvořit si anglickou větev.
+
+### Jak na branchování
+Jednoduše se dá zjistit na jaké branch jsme teď + zobrazení všech větví:
+```
+$ git branch
+
+// rychle udělat alias
+$ git config --global alias.b branch
+```
+A zobrazí se nám **master**.
+
+**Master** je další pojem z Gitu. Master je ustálený název pro hlavní větev vývoje, do které jsou spojeny (mergnuty) vývojové větve. Tahle větev by měla být stabilní a dokonce by se do ní přímo nemělo commitovat - k tomu se dostaneme až budeme dělat `git flow`.
+
+Pro naše účely ale nebudeme tak striktní a řekneme si, že naše hlavní vývojová větev **master** bude větev v češtině a větev **english** jí bude následovat.
+
+#### Vytvoření vývojové větve
+Vytvořit **branch** - větev se dá mnoha způsoby.
+```
+// klasicky
+$ git branch english
+```
+Stalo se to, že jsme z rodičovské verze `master` vytvořili novou větev, která se jmenuje `english`.
+
+`git checkout` se používá nejen pro smazání unstaged změn, ale taky k přepnutí branchí:
+```
+$ git checkout english
+$ git b
+```
+Ukáže se nám seznam branchí a naše aktuální, na kterou jsme se přepnul přes `git checkout`.
+
+Tohle je ale zdlouhavý způsob. Sám `git branch` používám jenom k zobrazení větví. K vytváření větví používám:
+```
+// zpět na master
+$ git checkout master
+$ git b // jsme v masteru
+
+// smazání větve
+$ git branch -D english
+
+// vytvoření větve english a přepnutí do ní rovnou
+$ git checkout -b english
+$ git b // jsme v english větvi
+```
+No a co teď?
+
+Když nyní commitneme, tak commit bude stále pouze na této větvi. Tak do toho, uděláme si soubor, který bude pouze pro tuhle větev.
+```
+$ touch english.md
+$ git add english.md
+$ git cm "add file in english on english branch"
+```
+Nyní, pokud se přepneme do masteru soubor `english.md` zmizí, protože je vedený pouze na větvi `english`.
+
+A pozor, pokud si zobrazíme `git l`. Tak vidíme commit, ze kterého vychází branch `english` a pokud uděláme nyní další commit tak se stane, že tenhle commit, ze kterého vychází větev `english` bude mít dva potomky.
+
+To je v pohodě. Ale horší budou jiné věci...
+
+Nyní, pokud chceme ukázat větvení, tak se přepneme zpátky do masteru a uděláme commit:
+```
+$ git checkout master
+$ touch czech.md
+$ git add --all
+$ git cm "added file in czech on master branch"
+```
+Zkusíme příkaz `git l`, pokud nemáte nastavený stejně alias, napište:
+
+```
+git log --graph --all --decorate --pretty=oneline --abbrev-commit
+```
+Voila - už nám rostou větvičky ze stromu a bude hůř!
+
+Resetneme si bordel, co jsme udělali na obou brančích a přepneme se do `english` a přeložíme si kus `notes.md` a změnu comitneme.
+
+Teď to začne bejt hustý. Máme tedy kousek textu přeloženej a teď si představíme, že normálně píšeme poznámky dál v češtině na větvi `master`.
+
+Takže se přeneme do `masteru` zase zapíšeme několik poznámek do `notes.md` a změnu commitneme.
+
+No a co se teď stalo? My jsme aktulizovali větev `master`, ale pokud se přepneme do `english`, tak zde ta změna není vidět.
+
+Proč?
+
+odpověď se nachází v `git log` nebo v `git l`.
+
+Jde o to, že když jsme vytvářeli branch `english` tak ona se vytvoří z body, který byl tehdy aktuální. Commity, které nyní vytvoříme na rodiči se nepromítnou, do `english` - logicky.
+
+Proto je třeba nějak říct větvi `english`, aby se aktualizovala a my mohli překládat dál, jak to uděláme?
+
+### Rebase
+Rebase je asi nejmocnější nástroj v Gitu, co existuje. Jdou s ním dělat neskutečný věci, ale prozatím stačí, když ho použijeme na aktualizaci větve `english` tak, aby její první commit měl za předka poslední, aktuální commit na větvi `master`. Prostě jí `pře-bázujeme`.
+
+Nyní je čas si prohlédnout `git l`. A vidíme, že `english` vychází z neaktuálního commitu v `master`. Nyní zavoláme:
+```
+$ git rebase master
+```
+`gite přebázuj aktuální větev na větev master = posuň větev english tak, aby vycházela z nejaktuálnější commitu větve master`
+
+no a teď:
+```
+$ git l
+```
+
+A strom je pryč, neboť není potřeba, vše je aktuální. Ukazatelé na předky byly posunuty, tudíž nejaktuálněší commit z celého repozitáře je poslední commit na větvi `english`.
+
+UF!
 
 
