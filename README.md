@@ -47,7 +47,7 @@ Commit je základní stavební kámen Gitu, kolem commitu se točí naprosto vš
 
 Commit je jedna kostička z lega. Git repozitář je pak Legoland.
 
-[![LEGO](http://www.kmart.com.au/wcsstore/Kmart/images/espots/lego-151119-hero-banner-yellowfeature-mobile.jpg)](Lego)
+[![LEGO](https://upload.wikimedia.org/wikipedia/commons/2/20/Lego_dublo_arto_alanenpaa_5.JPG)](Lego)
 
 Commit uchová jakoukoli změnu v textu. Je jedno, jestli se změní název souboru, jestli se někam přesune, jestli se změní jeden řádek nebo tisíc, každá uložená změna se zanese.
 
