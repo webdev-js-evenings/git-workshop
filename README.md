@@ -117,7 +117,7 @@ Pokud znova spustíme `git status` měla by se zobrazit změny `new file: notes.
 
 Tato změna bude **unstaged** . Unstaged změny jsou takové, které nejsou připravené ke commitnutí.
 
-Krom toho bude soubor `notes.md` v terminologii Gitu brán jako **untracked**. Untracked soubor je takový soubor, který ještě nikdy nebyl přidán di Gitu. Tudíž Git sice vidí, že tam takový soubor je, ale nesleduje zatím jeho změny, krom toho, že vidí, že tam ten soubor je.
+Krom toho bude soubor `notes.md` v terminologii Gitu brán jako **untracked**. Untracked soubor je takový soubor, který ještě nikdy nebyl přidán do Gitu. Tudíž Git sice vidí, že tam takový soubor je, ale nesleduje zatím jeho změny.
 
 V tomhle případě je změnou vytvoření nového souboru. Git dokáže jednoduše rušit unstaged změny přes příkaz `git checkout`, ale to nefunguje na přidání složek nebo souborů, ty se normálně mažou pomocí `rm`.
 ```
@@ -130,13 +130,17 @@ $ git status
 
 A změny jsou fuč!
 
-`git status` budete psát neustále, proto je dobrý si pro něj vytvořit alias
+##### Alias
+`git status` budete psát neustále, proto je dobrý si pro něj vytvořit **alias**. Alias je prostě zkratka pro příkaz, aby člověk nemusel psát jak kkt `git status` tak si jde nastavit místo `status` jenom `s` tj.: `git status === git s`:
 
 ```
 // vytovření aliasu pro git status = git s
 $ git config --global alias.s 'status'
+// důležité je "alias.s" to, co je za tečkou bude zkratka
 
 // výpis aliasů v ~/.gitconfig
+// nebo příkazem
+$ git config --get-regexp alias
 ```
 
 Vytvoříme znovu soubor `notes.md` a pak přes `git s` uvidíme, že soubor byl znovu objeven Gitem!
@@ -262,13 +266,13 @@ Nejjednoduší "smazání" je přes příkaz **reset**:
 ```
 // $ git reset < odkud kam >
 // smazání posledního commitu (nejaktuálnějšího)
-$ git reset --hard head~1 // odeber jeden nejnovější commit (na dané větvi)
+$ git reset --hard HEAD~1 // odeber jeden nejnovější commit (na dané větvi)
 // případně
-// $ git rest --hard head~2 // odeber dva nejnovější commity (na dané větvi)
+// $ git rest --hard HEAD~2 // odeber dva nejnovější commity (na dané větvi)
 ```
 **HEAD**? Řikáte si, co je to HEAD? Head je označení pro poslední commit větve nebo prostě commit, na kterém jste nastaveni. Proto mám poznamenáno:
 
-`Odeber jeden nejnovější commit tj.: head~1 - od indexu 0 - 1` Pokud bych napsal `git reset --hard head`, tak se nic nestane, protože říkám: `odeber commit od 0 do 0`
+`Odeber jeden nejnovější commit tj.: HEAD~1 - od indexu 0 - 1` Pokud bych napsal `git reset --hard HEAD`, tak se nic nestane, protože říkám: `odeber commit od 0 do 0`
 
 Nyní se podíváme na stav commitů, jak jdou za sebou `git l`. Vidíme, že náš commit je pryč, smazaný konec světa, jdeme to dělat znova!
 
@@ -306,18 +310,17 @@ $ rm -rf git-workshop
 
 ### Pokročilé operace
 
-Často se stává něco jako `Do piči, na tohle jsem zapomněl` nebo `Dopiči, tohle jsem tam commitnul blbě, to musim opravit.`
-
 #### Úprava commitu
-aka. `Dopiči, tohle jsem tam commitnul blbě, to musim opravit.`
+Často se stává něco jako `Dopiči, tohle jsem tam commitnul blbě, to musim opravit.` anebo `Tohle by asi mělo být ve zvláštním commitu, ne?`.
+
+##### Ammend - Dopiči, tohle jsem tam commitnul blbě, to mělo být takle...`
 Tak co vás napadá jako první možnost opravy commitu? Udělat novej?
 
 To je taky možnost, ale, nejjednoduší způsob, jak opravit nejaktuálnější commit je přes **amend**.
 
-#### Amend
-Uděláme pár změn a pak vytvoříme soubor `ten-tu-nema-byt.js`. A všechno commitneme (to už umíme)!
+Uděláme pár změn a pak vytvoříme soubor `ten-se-ma-jmenovat-jinak.js`. A všechno commitneme (to už umíme)!
 
-Teď si každej řekne "Do piči, ten soubor `ten-tu-nema-byt.js` tam neměl být, ten sem si omylem vytvořil a commitnu!!!"
+Teď si každej řekne "Do piči, ten soubor `ten-se-ma-jmenovat-jinak.js` se měl přeci jmenovat `takle-se-ma-jmenovat.js`!!!"
 
 Jak to smáznout z commitu? Mno.
 
@@ -326,28 +329,58 @@ Jak jsem pravil, commit je neměnitelný - (immutable), tudíž commit jako tako
 Takže **amend**:
 ```
 // smažeme soubor, co nechceme - normální změna
-$ rm ten-tu-nema-byt.js
+$ mv ten-se-ma-jmenovat-jinak.js ten-se-ma-jmenovat-jinak.js
+
 // přidáme normálně do stage pro commit
-$ git add ten-tu-nema-byt.js
+$ git add ten-se-ma-jmenovat-jinak.js
+
 // teď už neuděláme klasický commit, nýbrž
-$ git commit --am --no-edit
+$ git commit --am
 ```
 
 **--am** nebo též **--amend** říká "tyhle změny přidej do předchozího commitu tj. nevytvářej nový"
+
 **--no-edit** říká, že nechceme měnit původní commit message, ale chceme ponechat tu z předchozího commitu. Pokud bychom toto vynechali, tak by vyskočil VIM a to je zbytečná práce.
+
+Pokud nepoužijeme `--no-edit` tak pomocí `git commit --am` můžeme jednoduše upravovat commit message posledního commitu.
 
 Šup s tím do aliasu:
 ```
-$ git confit --global alias.cam 'commit --am --no-edit'
+$ git config --global alias.cam 'commit --am --no-edit'
+```
+Takže pro `amend` teď stačí napsat jenom `git cam` a všechno funguje, bombička.
+
+##### Reset --soft rozdělení commitu - Tohle by asi mělo být ve zvláštním commitu, ne?
+(http://stackoverflow.com/questions/927358/how-to-undo-last-commits-in-git)
+
+Na tohle je `amend` krátký. Tady je totiž potřeba vytáhnout soubor ven z commitu a to přes ammend neuděláme.
+
+Ale je to možná snažší než ammendovat. Takže.
+```
+// uděláme nějaké změny třeba v notes.md
+// vytvoříme soubor, který má být zvlášť v commitu
+$ touch pro-zvlastni-commit.js
+$ git add --all
+$ git cm "tenhle commit rozdelime"
+```
+Klasika, to umíme. Můžeme se mrknout přes `git s` na to, jak vypadá workspace, měl by být čistý a přes `git show` na to, jak vypadá commit, který jsme právě udělali.
+
+Je tam naše změna, plus je dole napsáno, že přibyl nový soubor. To jsme chtěli. Tak teď jak ten commit rozbijem?
+
+Vlastně nám stačí se dostat do fáze před tím, než jsme commit vytvořili - tam kde změny jsou provedené, ale nejsou commitnuté a přes to dělá **git reset <--soft>**
+
+Soft reset smaže commit, ale ponechá změny ve workspace.
+```
+//1 psát nemusíme, už známe, že tohle znamená - resetni jeden commit do minulosti, můžeme jich resetnout i více
+$ git reset --soft HEAD~
 ```
 
+Nyní `git s` ukáže, že máme necomitnuté změny ve workspace a `git l` ukáže, že commit s message `tenhle commit rozdelime` už není v historii.
 
+No a nyní můžeme přidat zvlášť soubor `notes.md` a commitnout ho do commitu s nějakou zvláštní message a stejně tak pak přidáme soubor `pro-zvlastni-commit.js` a k němu také napsat jinou message a je to! Pro kontrolu použíjeme `git l`. A vidíme dva commity, které jsme právě udělali.
 
-Tak, proč ne, že jo? Zkusme si to - uděláme commit, který změní název souboru `notes.md` na `nove-notes.md`.
-```
-$ mv notes.md nove-notes.md
-$ git add --all && git commit -m "zmena nazvu notes.md na nove-notes.md"
-```
+No a teď si ty dva bordel commity resetneme a jedeme dál. A podíváme se na `git l` - dva commity, které jsme udělali by tam neměli být.
+
 
 ### Gitignore
 Btw. stává se, že se do Gitu přimotaj soubory, které tam nechcete. Typick na Macu je to soubor `.DS_Store` (na Windows zase `Thumbs.db`), do kterého OS X přidává nějaké kokotiny o aktuální složce. Tyhle soubory jde jednoduše ignorovat pomocí souboru `.gitignore`.
