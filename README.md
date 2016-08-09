@@ -16,7 +16,7 @@ Po mně následuje Petr a jeho kurz o automatizaci vývoje.
 
 Za to, že umím git vděčím hlavně chlapcům [@lukas_rychtecky](https://twitter.com/lukasrychtecky) a [@jankuca](https://twitter.com/jankuca)
 
-## Části:
+## Začněte:
 1. [Git, Commit a branch](./commit-branch.md)
 2. [Git Flow](./git-flow.md)
 
