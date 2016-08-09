@@ -221,5 +221,8 @@ $ git rebase origin/dev
 Můžete si to vyzkoušet tak, že si resetnete commity z branche `dev`.
 A je to!
 
+### Konflikty
+A je to tady! Jsme to ale konfliktní lidé!
+
 
 
