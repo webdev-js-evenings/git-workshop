@@ -1,6 +1,8 @@
 # Git Flow
 Je o tom, jak pracovat v týmu, kde všichni členové používají Git.
 
+Naučili mě to ve firmě: [Usertech](https://usertechnologies.com/).
+
 ## Proč?
 V první přednášce jsem mluvil o FTP. To nefunguje proto, že si všichni navzájem ničí změny a na jednou souboru může tedy pracovat jen jediný člověk v jednu chvíli. Plus je tady další tisíc problémů. Například ten, že se všechno v jednu chvíli smaže, pře spadne spojení, že se soubor poruší atd. atd...
 
@@ -11,6 +13,7 @@ O tom je Git flow.
 ## Jak na to
 Tohle je sranda obrázek organizačních struktur ve velkých IT firmách.
 [![Forks](http://www.ericsson.com/uxblog/wp-content/uploads/2012/05/organizational_charts.jpg)](Forks)
+
 Zajímavý je pro nás obrázek Applu. Protože takle nějak vypadá Git flow.
 
 ### Kdo je steve Jobs?
@@ -69,7 +72,7 @@ Je větev v repozitáři, do které se posílají **pull requesty**. Je to věte
 Takže vytvoříme branch z branche `dev`. Nemáte ve svém repozitáři branch `dev`? Hmm...
 ```
 // ale to už přece umíte
-$ git checkout -b dev < Issue ID >-my-feature
+git checkout -b dev < Issue ID >-my-feature
 ```
 
 #### Vytvoření commitu
@@ -89,7 +92,7 @@ Pushnutí znamená, že svojí lokální branch na svém stroji pošlete do vzd�
 Pokud tedy napíšete:
 ```
 // radši píšu přesně to, co se děje
-$ git push origin < vase branch >
+git push origin < vase branch >
 ```
 Tak `git` pošle commity, které jste udělali do vašeho forku a vytvoří tam novou branch. Do toho.
 
@@ -112,7 +115,13 @@ Existují klíčová slova - jako `address`, `closes` a další mě nenapadá. K
 
 Pull request hotov od všech? Paráda, jdu to kontrolovat...
 
-#### Akceptování, komentování a mergnutí
+#### Code Review - Akceptování, komentování a mergnutí
+Some say, (já), že **Code Review** je důležitější než testy. Dokonce i kluci ze Salsity se mnou souhlasili, což byla čest.
+
+Code Review je o tom, že se vám někdo podívá na váš pull request a že ho někdo zkontroluje, že ho někdo vyzkouší, že ho opřipomínkuje.
+
+Osobně si **nedovedu** představit dělat vážně projekt, kterej by neměl žádné code review. Proto nejhorší věc, kterou můžete udělat je něco psát prostě sám bez nikoho cizího, kdo by se na to podíval!!!
+
 Sobě jsem udělal komentář, abych něco změnil a aktualizoval změny, mrkneme se na to.
 
 Ke změně pull requestu stačí jenom aktualizovat branch ve svém forku - to umíme, buďto tam pushneme nové commity nebo uděláme `ammend` udělám `ammend`, aby bylo vidět, co se stane.
@@ -139,12 +148,12 @@ No, musíme si přidat `webdev-js-evenings/git-workshop` jako **remote** repozit
 ##### Přidání remote
 Přidání remote je jednoduché a nejdřív si je hezky zobrazíme:
 ```
-$ git remote -v
+git remote -v
 ```
 A vidíme jen origin, paráda. Teď zkusíme přidat.
 
 ```
-$ git remote add origin https://github.com/webdev-js-evenings/git-workshop.git
+git remote add origin https://github.com/webdev-js-evenings/git-workshop.git
 ```
 Uh, to nejde, co? No to je proto, že jsem pojmenoval tenhle repozitář jako `origin` a nejde mít dva repozitáře pojmenované stejně.
 
@@ -155,8 +164,8 @@ Ale v Git Flow je aktuální vývojová větev - ta, kde je pravda - v našem sd
 
 Takže nejdřív si přejmenujeme remote našeho forku. Přejmenujeme si ho třeba na **public** protože většinou je náš fork veřejný, do kterého nám leze třeba projekťák nebo nám do něj leze senior vývojář, aby si stáhnul nedokončené změny a vyzkoušel nebo upravil to, co děláte.
 ```
-$ git remote rename origin public
-$ git remote -v
+git remote rename origin public
+git remote -v
 ```
 Tak vidíme zde nyní dva remoty, kam můžeme pushovat -
 - public (url našeho forku)
@@ -177,8 +186,8 @@ Nejjednodušší z nich j **pull**. Pull prostě stáhne commity z nějaké remo
 Tedy:
 ```
 // přepneme se na naší dev branch
-$ git checkout dev
-$ git pull origin dev
+git checkout dev
+git pull origin dev
 ```
 
 See the magic happen...
@@ -192,7 +201,7 @@ Paráda, umíme si držet naší `dev` větev aktuální a z ní můžeme dál p
 
 Pojďme to zkusit.
 ```
-$ git fetch origin
+git fetch origin
 ```
 Mělo by se něco vypsat - například to, že se vytvořila branch `origin/dev`.
 
@@ -204,19 +213,19 @@ A jsme na remote tracking branch, ze které můžeme dělat normální feature b
 
 Pořád tedy funguje:
 ```
-$ git checkout -b feature-branch origin/dev
+git checkout -b feature-branch origin/dev
 ```
 A teď je to to samé jako:
 ```
-$ git checkout dev
-$ git checkout -b feature-branch
+git checkout dev
+git checkout -b feature-branch
 ```
 Je to stejné proto, že jsme přes **pull** aktualizovat lokální branch `dev`.
 
 Pokud ale pořád chceme používat normálně lokální branch `dev` a nechceme používat destruktivní **pull** tak prostě rebasneme:
 ```
-$ git checkout dev
-$ git rebase origin/dev
+git checkout dev
+git rebase origin/dev
 ```
 Můžete si to vyzkoušet tak, že si resetnete commity z branche `dev`.
 A je to!
@@ -224,5 +233,121 @@ A je to!
 ### Konflikty
 A je to tady! Jsme to ale konfliktní lidé!
 
+#### Kdy vzniká konflikt
+Představme si, že kolega má za úkol vymazat všechny soubory `.md` jenže vy o tom nevíte.
+
+Takže vy i váš kolega si vytvoří z `dev` branch každý novou feature větev a jdete pracovat. Protože smazat soubory je jednoduché, tak kolega bude rychlejší a vytvoří pull request dříve než a také je rychle mergnut.
+
+No a co teda vy? Máte vytvořenou feature branch z commitu, kde ještě soubory `.md` existují, ale přitom už jsou smazanány - vy to ale nevíte, takže vytvoříte pull request a v něm se píše, že nejde mergnout, protože tam je konflit, co teď?
+
+Tak první krok je jasný, budete muset svojí větev `dev` aktualizovat a pak svojí feature branch rebasnou na aktuální `dev`, to vám ale nepůjde, protože zde bude konflit...
+
+**Úkol:** Všichni prosím udělejte pull request s commmitem, ve kterém do souboru `git-flow/good-music.md` napíšete odkaz na nějakou hezkou písničky - pro inspiraci tam už nějaké kvalitní songy jsou.
+
+Jakmile budete mít pull request, tak já commitem smažu a přesunu tento soubor jinam a uvidíme, co se bude dít.
+
+#### Řešení konfliktů
+Abychom takový konflikt vyřešili, tak si musíme rebasnout na aktuální `dev`.
+
+A při rebasování se objeví chyba. `git status` ukáže, co je špatně.
+```
+git s
+```
+Všimněte si, že jsme pořád ve fázi rebasu. Nyní můžeme dokonce rebase zrušit:
+```
+git rebase --abort
+```
+A všechno se vrátí do stavu, kdy jsme ještě neměli zobrazené žádné konflikty.
+
+Ukazuje se, že soubor, který upravujeme byl smazán, OK. Paráda, tak to se má asi smazat. Proto použijeme:
+```
+git rm < soubor >
+```
+abychom i ve svém commitu soubor smazali.
+
+A pak pokračujeme v rebasu:
+```
+git rebase --continue
+```
+
+Měla by vyskočit chyba, protože my jsme vlastně naší změnu zcela smazali - smazali jsme soubor, který jsme upravovali, tudží se oproti větvi `dev` nic nezměnilo.
+
+Git nám napovídá, že máme použít `--allow-empty` to ale nechceme. `--allow-empty` povolue prázdné commity a ty nemají význam. Proto prostě radši náš pull request stáhneme a zrušíme `rebase`.
+
+#### Lepší konflikt
+Tak to jsme si ukázali jednoduchou věc.
+
+Teď po Vás budu chtít, abyste smazali moje dvě písčničky a nahradili je dvěmi svými a udělali pull request.
+
+Budu muset nějaké pull requesty mergnout, aby bylo vidět, jaký je v tom teď hokej...
+
+Nyní si zkusme všichni aktualizovat `dev` a zkusit provést `rebase`. A zasekneme se, zkusíme `git status`.
+```
+git status
+```
+Vypíše se `both modified: < soubor >`. To znamená, že někdo upravil soubor na stejném místě jako vy a protože commity mají stejného předka, tak spolu navzájem bojují.
+
+Otevřete si soubor a uvidíte, že se nám tam vypsali divné znaky, která ukazují, co je konfliktní.
+
+Nejdřív si ale zapneme lepší mód pro řešení konfliktů:
+```
+git rebase --abort
+git config --global merge.conflictstyle diff3
+```
+`diff3` je lepší způsob zobrazení konfliktů. Ukazuje totiž ještě předka obou (nebo více) commitů, které spolu konfliktují.
+
+Zkusme si znova rebasnout:
+```
+git rebase dev
+```
+A otevřeme si konfliktní soubor...
+Tak paráda, vidíme moje počáteční změny, pak vaše změny a pak změny kolegů - chceme nechat všechny změny, kromě mé původní verze!
+**POZOR:** prostřední část v tomhle zobrazení chceme prakticky vždy smazat, ukazuje totiž původní část kódu před tím, než je nějaké commity změnily!
+**POZOR:** při řešení konfliktu v rebasu měníte commity v historii!! Narozdíl od merge, který vytvoří commit, kde se řeší konflikty. Viz. výše.
+
+#### Nééé, commitnul jsme konflikty!!
+To se stává často...
+
+Rebase má oproti `mergi` trošku nevýhodu v tom, že commitnuté konflitky může nechat hluboko v historii. Říkáte si, že rebase přece nejde zvrátit? Vždyť přece nemůžeme všechny komity resetnout, ne?
+
+Ne, to nemůžeme, ale můžeme se vrátit do stavu před tím, než jsme rebasovali. K tomu slouží **reflog**.
+
+##### Reflog
+Reflog je log prakticky všech akcí, které v Gitu děláte. *Dají se přes ně najít branche, které jste opustili, nebo commity, které jste v historii vytvořili*.
+
+Snadno se také přes `reflog` dá vrátit do stavu před tím než jste prováděli rebase. Zkuste si:
+```
+git reflog
+```
+Seznam všech akcí, pokud se chcete vrátit do stavu, kde jste byli dřív, stačí jenom:
+```
+git checkout < ID akce >
+```
+Nyní jste ve chvíli, kdy jste dělali tu kterou akci popsanou v reflogu. Nejste ale na žádné branchi, nejspíš jste na nějakém commitu, pokud chcete vytvořit z stavu branch, postupujete klasicky:
+```
+git checkout -b < nazev branche >
+```
+A pokud jste se checkoutnuly do stavu před rebasem, jste přesně tam, kde jste chtěli být!
+
+
+#### Hurá vyřešili jsme konflikty, můžeme pushnout
+Ale vono to zahlásí nějaký nesmysl...
+
+Proč?
+
+Protože jsme změnili historii - změnili jsme nějaký commit ručně a k tomu všemu jsme ještě rebasovali, takže jsem z větve `dev` narvali nějaké commity do historie naší feature branch.
+
+Git je chytrej a tohle nedovolí, protože `push` povoluje jenom přírůstky a tohle je změna.
+
+Nicméně v tomhle případě je jasný, že to, co máme lokálně je to správné a to, co je v remotu je zastaralé. Proto musíme použít sílu!!
+```
+git push --force < nas remote > < feature branch >
+//nebo
+git push -f < nas remote > < feature branch >
+```
+**POZOR:** Force pushování mění historii na remotu, můžete si tak něco smazat! Nebo tak něco smazat kolegům!
+
+## Už to všichni umíme
+Proto dávám všem úkol. Každý najděte v mých dokumentech nějakou chybu - pravopisnou, překlep atd. Napište issue na github, udělejte vyvoněný pull request a já to mergnu a pak vydáme verzi `0.2`!!
 
 
