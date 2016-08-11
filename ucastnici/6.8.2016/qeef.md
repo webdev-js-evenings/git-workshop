@@ -1,1 +1,1 @@
-some file
+content of some file
