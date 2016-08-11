@@ -524,4 +524,20 @@ A strom je pryč, neboť není potřeba, vše je aktuální. Ukazatelé na před
 
 UF!
 
+## Co se nestihlo
+- spojování větví `rebase` a `merge` jaký je rozdíl?
+
+### Rebase
+jenom vezme commity a vloží je do historie vaší branche. Pokud se stane konflikt, tak vás rebase mód vyzve k úpravě commitu.
+
+### Merge
+Merge vezme branch, kterou mergujete do aktulní branche. Pak ji "schová" do `merge commitu` a pokud se vyskytnout konflikty, tak vám poručí je vyřešit a pak změny commitnout a tím se vytvoří merge commmit.
+
+#### Merge Commit
+Je zvlášní druh commitu, který drží ukazele na commity z branche, kterou mergujete. Takže je to commit, který v sobě schovává víc commitů. Výsledek merge je stejný jako výsledek rebasu - máte spojené dvě větve v jednu - s tim rozdílem, že merge vytvoří explicitní merge commit, kde jsou vyřešené konflitky, zatímco pomocí rebasu jen měníte stávající commity tak, aby nekonfliktovali.
+
+`Merge commit` se dá snadno smazat normálně pomocí `git reset --hard`.
+
+V Master a Dev branchích jsou vidět merge commity, aby bylo jasné, jaké branch se kdy udělala a kdo jí udělal.
+
 
