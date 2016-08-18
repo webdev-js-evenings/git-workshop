@@ -31,7 +31,12 @@ Tohle je trošku pracná metoda, ale je v rámci toho, co už umíme, druhá met
 ### Iteraktivní rebase
 Rebase je mocná věc, ale jeho interaktivní podoba je ještě mocnější.
 
-Dovoluje vám měnit commity v historii.
+Ale taky se s tím dají udělat velké boty:
+
+[![Rebase](http://65.media.tumblr.com/4c5d2f68624a568985c59423a27fcb3c/tumblr_o5fadyZqP61ugyavxo1_1280.jpg)](Rebase)<br>
+“Junior programmer's first `git rebase –interactive`“ - Salvador Dalí, 1936, Oil on Canvas
+
+Tedy, interaktivní rebase nám dovoluje měnit commity v historii.
 Zkusme si:
 ```
 git rebase -i head~5
