@@ -19,6 +19,7 @@ Za to, že umím git vděčím hlavně chlapcům [@lukas_rychtecky](https://twit
 ## Začněte:
 1. [Git, Commit a branch](./commit-branch.md)
 2. [Git Flow](./git-flow.md)
+3. [Advanced Git](./advanced.md)
 
 ## Díky
 Přišlo Vás opravdu hodně a my Vám za to děkujeme.
