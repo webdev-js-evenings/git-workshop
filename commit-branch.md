@@ -180,24 +180,32 @@ $ git add --all
 $ git commit
 ```
 **GOTCHA:** defaultní editor pro úpravu commit messages a vůbec všeho textového v Gitu je VIM.
-A nikdo neví, jak do něj něco napsat nebo hůř, jak se z něj dostat proto:
+A nikdo neví, jak do něj něco napsat nebo hůř, jak se z něj dostat, proto:
+
+Přepneme do zapisovacího módu:
 ```
-// zapisovací mód
-$ i
+i
 ```
+
 Nyní napíšeme nějakou commit message - to, co jsme udělali. V našem případě asi něco jako:
 ```
 přidání souboru pro poznámky notes.md
 ```
-A pak pryč z VIMu
 
+A pak pryč z VIMu:
 ```
-// ofiko quit je myslim :q!
-//jinak
-$ ESC
-$ shift + Z Z
+<esc>:wq
 ```
-Dá se to nějak přenastavit, já tam mám Sublime, ale už nevim, jak jsem to udělal cc @jankuca
+Nebo:
+```
+<esc>
+shift + ZZ
+```
+
+Pokud chceme předejít adrenalinovým zážitkům s VIMem, hodí se nastavit výchozí editor na něco více user friendly:
+```
+git config --global core.editor nano
+```
 
 Jasně, nikoho nebaví se furt přepínat do VIMu. Proto existuje zkratka, kterou používám:
 ```
