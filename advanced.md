@@ -62,6 +62,8 @@ git rebase -i -p head~10
 ```
 
 ## Deployment přes git repozitář
+**!!WARN!!** tohle je jenom pro testovací účely!! Takovéhle nastavení se **nehodí** pro produkci. Protože vám na server kopíruje celou gitovou historii + soubory, které mohou být jen pro vývoj - a to je špatně!! Tohle nastavení se hodí jenom pro testování a debuggování!!
+
 Git funguje na ssh. Proto vám nebrání si udělat z jakéhokoli počítače vzdálený gitový repozitář. A jakou to má souvislost s deploymentem?
 
 Git má zabudované `hooks` - hooky, které se spustí při nějaké akci. Například při po provedení commitu, přes pushováním apod. Nás zajímá hook, který se zavolá ve chvíli, kdy byl repozitář aktualizován - když je do něj pushnuto. Jak na to?
