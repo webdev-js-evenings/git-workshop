@@ -110,6 +110,10 @@ touch hooks/post-receive
 Pak ho upravíme tak, aby pokaždé checkoutnul na novou verzi branche master, kam budeme pushovat deploynutý kód (můžete mít jakoukoli jinou branch).
 ```
 git checkout -f master
+// a pod to si můžeme dát nějaký instalační skript, který spustíme ve worktree třeba:
+// cd ../www/
+// npm install
+// make install
 ```
 A ještě změníme práva tak, aby byl soubor spustitelný:
 ```
