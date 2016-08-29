@@ -60,3 +60,72 @@ Rebasování merge commitů je trošku složitější, neboť za sebou schováva
 ```
 git rebase -i -p head~10
 ```
+
+## Deployment přes git repozitář
+Git funguje na ssh. Proto vám nebrání si udělat z jakéhokoli počítače vzdálený gitový repozitář. A jakou to má souvislost s deploymentem?
+
+Git má zabudované `hooks` - hooky, které se spustí při nějaké akci. Například při po provedení commitu, přes pushováním apod. Nás zajímá hook, který se zavolá ve chvíli, kdy byl repozitář aktualizován - když je do něj pushnuto. Jak na to?
+
+Můžete si to vyzkoušet na třeba na Macu tak, že si aktivujete `Vzdálené přihlášení` v nastavení sdílení. Pak se budete moc přihlásit přes ssh do svého počítače např. takto: `ssh < vaseUzivatelskeJmeno >@< ip adresa >`- ip adresu zjistíte přes příkaz `ifconfig` u měj je celý příkaz: `ssh vojtatranta@192.168.0.101`.
+
+Pokud se přihlásíte na váš počítač (nebo jakýkoli jiný sever, ke kterému máte ssh přístup) tak pak už jenom zbývá například v home složce uživatele, kde jste přihlášeni vytvořit složku, kde bude ležet váš projekt.
+```
+mkdir deployment
+```
+A pak složku initnout jako git repozitář:
+```
+cd deployment
+// vytvoříme prázdný gitový repozitář, což bude náš testovací remote
+git init
+```
+A vytvořit složku, kde budou vašeho projektu, přístupné webserveru:
+```
+mkdir www
+```
+Nyní je třeba nastavit tzv. `worktree` gitu. Worktree je složka, ve kterém je trackovaný projekt. Ve výchozím nastavení je to složka ve kterém je git initnut (kde je složka `.git`). V našem případě to tak nechceme - pokud chceme document root nastavit na složku, která je trackovaná gitem, tak není dobrý nápad nechat přístupnou celou historii gitu ve složce, která je přístupná webseverem. Historie gitu je totiž samozřejmě uchována ve složce `.git`.
+
+Takže jdeme přenastavit worktree tak, aby ukazoval na složku `~/deployment/www`
+```
+cd .git
+nano config
+```
+A tady přidáme klíč `worktree` s správnou cestou pod `[core]`:
+```
+[core]
+  filemode = true
+  worktree = /Users/vojtatranta/deployment/www
+```
+Nyní bude git sledovat složku `/Users/vojtatranta/deployment/www` jako by byla tady: `/Users/vojtatranta/deployment` Takže můžeme bezpečně namířit document root na složku `/Users/vojtatranta/deployment/www` a přes web se nikdo nedostane ke gitové historii.
+
+### Nastavení hooku
+Ještě je třeba nastavit `post-receive` hook tak, aby přepnul na aktuální verzi jakmile se pushne do repozitáře.
+
+Měli bychom být ve složce `~/deployment/.git` a příhlášení na ssh (pokračujeme dál ve výše zmíněném) a zadáme:
+```
+// vytovříme hook soubor
+touch hooks/post-receive
+```
+Pak ho upravíme tak, aby pokaždé checkoutnul na novou verzi branche master, kam budeme pushovat deploynutý kód (můžete mít jakoukoli jinou branch).
+```
+git checkout -f master
+```
+A ještě změníme práva tak, aby byl soubor spustitelný:
+```
+chmod +x hook/post-receive
+```
+
+### Nastavení deployment remote
+No a teď jenom stačí přidat deployovací remote v lokálním repozitáři (už ne na ssh, tam je hotovo).
+
+Takže v lokálním repozitáři přidáme další remote a nazveme ho třeba `test` aby bylo jasné, že tam pushujeme nějakou funkční verzi.
+
+A pak zadáme ssh adresu a oddělíme ji `:` pak zadáme cestu k .git složce, která kontroluje náš worktree na vzdáleném serveru.
+```
+git remote add test vojtatranta@192.168.0.101:deployment/.git
+```
+Jen vyměňte za vaše přístupové údaje.
+
+No a to je všechno. Pokud teď zadáte: `git push test master` mělo by proběhnout pushnutí a pokud jste si nastavili document root, tak by se měl váš projekt ukázat přes nějakou webovou URL v prohlížeči. Nebo minimálně se můžete přihlásit na ssh a zkontrolova, jestli jsou soubory ve worktree, tedy tady: `~/deployment/www`.
+
+Jestli vám to nefunguje, tak napište issue, pokusí se poradit :)).
+
