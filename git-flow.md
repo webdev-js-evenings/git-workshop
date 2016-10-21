@@ -4,7 +4,7 @@ Je o tom, jak pracovat v týmu, kde všichni členové používají Git.
 Naučili mě to ve firmě: [Usertech](https://usertechnologies.com/).
 
 ## Proč?
-V první přednášce jsem mluvil o FTP. To nefunguje proto, že si všichni navzájem ničí změny a na jednou souboru může tedy pracovat jen jediný člověk v jednu chvíli. Plus je tady další tisíc problémů. Například ten, že se všechno v jednu chvíli smaže, pře spadne spojení, že se soubor poruší atd. atd...
+V první přednášce jsem mluvil o FTP. To nefunguje proto, že si všichni navzájem ničí změny a na jednou souboru může tedy pracovat jen jediný člověk v jednu chvíli. Plus je tady další tisíc problémů. Například ten, že se všechno v jednu chvíli smaže, spadne spojení, že se soubor poruší atd. atd...
 
 Co kdyby ale každý měl u sebe kopii celého projektu a jen synchronizoval změny, které provedli jeho kolegové se změny, které provadí sám?
 
@@ -16,7 +16,7 @@ Tohle je sranda obrázek organizačních struktur ve velkých IT firmách.
 
 Zajímavý je pro nás obrázek Applu. Protože takle nějak vypadá Git flow.
 
-### Kdo je steve Jobs?
+### Kdo je Steve Jobs?
 Ta červená tečka uprostřed je v našem případě náš společný repozitář, do kterého všichni přispíváme.
 Minulou přednášku jsme si forknuli repozitář ten špatný, a dneska si forkneme už ten správný!
 
@@ -35,7 +35,7 @@ Pod přispíváním **contributions** si zřejmě představíme přidává commi
 
 Jak teda příspějeme?
 
-Dělá se to tak, že řekneme správci společného repozitáře - hale, tady mám nějakej kód a byl bych rád, abyste ho přijali do vašeho repozitáře. A tomu se říká **pull request** nebo také **merge request**. Prostě někomu dáváme svoje commity k posouzení, aby rozhodl, jestli je začlení do svého repozitáře (**mergne**) nebo ne.
+Dělá se to tak, že řekneme správci společného repozitáře - hele, tady mám nějakej kód a byl bych rád, abyste ho přijali do vašeho repozitáře. A tomu se říká **pull request** nebo také **merge request**. Prostě někomu dáváme svoje commity k posouzení, aby rozhodl, jestli je začlení do svého repozitáře (**mergne**) nebo ne.
 
 ### Konec keců, vzhůru do praxe
 Takže snad máme všichni forknuto a naklonováno. Ti, kteří minulou přednášku forkli špatný repozitář si musí špatný fork smazat a forknout si ten správný.
@@ -78,7 +78,7 @@ git checkout -b dev < Issue ID >-my-feature
 #### Vytvoření commitu
 Tak šup šup! Vytváře commity umíme, udělejte commit, který splní to, co je v Issue, které jste vytvořili!
 
-Je také good practice psát do commit message issue ID a co s ní který commit dělá např:
+Je také good practise psát do commit message issue ID a co s ní který commit dělá např:
 ```
 Add file /ucastnici/6.8.2016/jenicek.md
 closes #4234
@@ -132,7 +132,7 @@ Jakmile jsou všechny komentáře vyřešeny, tak následuje merge!
 
 Jdu na to.
 
-Mělo by vidět, jak github spároval issues s pull requesty přes popisky v popisku pull requestu. Pokud jste dokonce napsali `closes #31323`, tak by se po mergnutí mělo zavřít i issue.
+Mělo by být vidět, jak GitHub spároval issues s pull requesty přes popisky v popisku pull requestu. Pokud jste dokonce napsali `closes #31323`, tak by se po mergnutí mělo zavřít i issue.
 
 #### Tak to je celé...
 Není :-D

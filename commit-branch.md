@@ -99,7 +99,7 @@ $ touch notes.md
 
 Pokud znova spustíme `git status` měla by se zobrazit změny `new file: notes.md`. Tyhle změny se zobrazují vždy oproti současnému stavu.
 
-Tato změna bude **unstaged** . Unstaged změny jsou takové, které nejsou připravené ke commitnutí.
+Tato změna bude **unstaged**. Unstaged změny jsou takové, které nejsou připravené ke commitnutí.
 
 Krom toho bude soubor `notes.md` v terminologii Gitu brán jako **untracked**. Untracked soubor je takový soubor, který ještě nikdy nebyl přidán do Gitu. Tudíž Git sice vidí, že tam takový soubor je, ale nesleduje zatím jeho změny.
 
@@ -205,7 +205,7 @@ $ git commit -m "commit messsage"
 ```
 A rovnou si na ní uděláme aliasík, ne? Co takle, kdyby `git cm "commit message"` bylo to samé?
 ```
-$ git confit --globa alias.cm 'git commit -m'
+$ git config --global alias.cm 'git commit -m'
 ```
 Vyzkoušíme si:
 ```
@@ -229,7 +229,7 @@ Vidíme změnu v původním commitu, čas, autora, commit message - to je náš 
 #### Smazání commitu
 No, smazat. Ono smazat commit je poměrně dost těžká práce. Ukážeme si.
 
-nejdřív se ukážeme seznam všech commitů - příkaz **log**, které jsme doteď vytvořili - nelekejte se, jsou tam i moje původní a to je dobře.
+Nejdřív si ukážeme seznam všech commitů - příkaz **log**, které jsme doteď vytvořili - nelekejte se, jsou tam i moje původní a to je dobře.
 
 ```
 // zobrazit seznam commitů na aktuální branch
@@ -275,7 +275,7 @@ $ git cherry-pick < commit id >
 Zkontrolujeme, že je vše zpátky, jak má být aliasovaným příkazem `git l`. Juuhůů!
 
 Takže umíme:
-- udělat změnu (prostě napsat něco nového do souboru, vytvořit soubor...)
+- udělat změnu (prostě napsat něco nového do souboru, vytvořit soubor, ...)
 - smazat unstaged změnu
 - přidat změnu do stage pro commit
 - smazat změnu ze stage pro commmit
@@ -313,10 +313,10 @@ $ rm -rf git-workshop
 #### Úprava commitu
 Často se stává něco jako `Dopiči, tohle jsem tam commitnul blbě, to musim opravit.` anebo `Tohle by asi mělo být ve zvláštním commitu, ne?`.
 
-##### Ammend - Dopiči, tohle jsem tam commitnul blbě, to mělo být takle...`
+##### Ammend - Dopiči, tohle jsem tam commitnul blbě, to mělo být takhle...
 Tak co vás napadá jako první možnost opravy commitu? Udělat novej?
 
-To je taky možnost, ale, nejjednoduší způsob, jak opravit nejaktuálnější commit je přes **amend**.
+To je taky možnost, ale nejjednoduší způsob, jak opravit nejaktuálnější commit je přes **amend**.
 
 Uděláme pár změn a pak vytvoříme soubor `ten-se-ma-jmenovat-jinak.js`. A všechno commitneme (to už umíme)!
 
@@ -488,19 +488,19 @@ Zkusíme příkaz `git l`, pokud nemáte nastavený stejně alias, napište:
 ```
 git log --graph --all --decorate --pretty=oneline --abbrev-commit
 ```
-Voila - už nám rostou větvičky ze stromu a bude hůř!
+Voilà - už nám rostou větvičky ze stromu a bude hůř!
 
 Resetneme si bordel, co jsme udělali na obou brančích a přepneme se do `english` a přeložíme si kus `notes.md` a změnu comitneme.
 
 Teď to začne bejt hustý. Máme tedy kousek textu přeloženej a teď si představíme, že normálně píšeme poznámky dál v češtině na větvi `master`.
 
-Takže se přeneme do `masteru` zase zapíšeme několik poznámek do `notes.md` a změnu commitneme.
+Takže se přepneme do `masteru` zase zapíšeme několik poznámek do `notes.md` a změnu commitneme.
 
 No a co se teď stalo? My jsme aktulizovali větev `master`, ale pokud se přepneme do `english`, tak zde ta změna není vidět.
 
 Proč?
 
-odpověď se nachází v `git log` nebo v `git l`.
+Odpověď se nachází v `git log` nebo v `git l`.
 
 Jde o to, že když jsme vytvářeli branch `english` tak ona se vytvoří z body, který byl tehdy aktuální. Commity, které nyní vytvoříme na rodiči se nepromítnou, do `english` - logicky.
 
@@ -528,13 +528,13 @@ UF!
 - spojování větví `rebase` a `merge` jaký je rozdíl?
 
 ### Rebase
-jenom vezme commity a vloží je do historie vaší branche. Pokud se stane konflikt, tak vás rebase mód vyzve k úpravě commitu.
+Jenom vezme commity a vloží je do historie vaší branche. Pokud se stane konflikt, tak vás rebase mód vyzve k úpravě commitu.
 
 ### Merge
 Merge vezme branch, kterou mergujete do aktulní branche. Pak ji "schová" do `merge commitu` a pokud se vyskytnout konflikty, tak vám poručí je vyřešit a pak změny commitnout a tím se vytvoří merge commmit.
 
 #### Merge Commit
-Je zvlášní druh commitu, který drží ukazele na commity z branche, kterou mergujete. Takže je to commit, který v sobě schovává víc commitů. Výsledek merge je stejný jako výsledek rebasu - máte spojené dvě větve v jednu - s tim rozdílem, že merge vytvoří explicitní merge commit, kde jsou vyřešené konflitky, zatímco pomocí rebasu jen měníte stávající commity tak, aby nekonfliktovali.
+Je zvlášní druh commitu, který drží ukazele na commity z branche, kterou mergujete. Takže je to commit, který v sobě schovává víc commitů. Výsledek merge je stejný jako výsledek rebasu - máte spojené dvě větve v jednu - s tim rozdílem, že merge vytvoří explicitní merge commit, kde jsou vyřešené konflikty, zatímco pomocí rebasu jen měníte stávající commity tak, aby nekonfliktovali.
 
 `Merge commit` se dá snadno smazat normálně pomocí `git reset --hard`.
 
