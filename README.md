@@ -1,4 +1,4 @@
-[![Course Logo](https://scontent-frt3-1.xx.fbcdn.net/t31.0-8/p843x403/13925806_861297944014993_6462424771285799414_o.jpg)](Course Logo)
+[![Course Logo](https://raw.githubusercontent.com/Nodonisko/git-workshop/master/logo.jpg)](Course Logo)
 # Naučte se konečně Git - Git Workshop
 
 ## O kurzu
