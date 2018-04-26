@@ -9,7 +9,9 @@ Kromě toho se dostaneme i k těm složitějším věcem, jako je například re
 ## O nás
 Webdev / JS evenings klub byl založený Nikitou Mironovem. Nikita začínal učit Javascript a pak na něj navázal Honza Václavík a Dan Rys s jejich kurzem vývojem mobilních aplikací v Ionicu. Měli jsme taky kurt o Reactu a Vojta Tranta se proslavil ([@iVojta](https://twitter.com/ivojta)) velice úspěšným kurzem o Gitu. Teď se to pokusí zopakovat [Jakub Žitný](http://twitter.com/jakubzitny).
 
+
 ## Začněte
+0. [Anketa](https://goo.gl/forms/2PIifjHxIvFjNUCE2)
 1. [Quick start, commit, GitHub a branche](./notes-1.md)
 2. Branch, merge, rebase a workflow s Gitem
 3. Best practices, Advanced config
