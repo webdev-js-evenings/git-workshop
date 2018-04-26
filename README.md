@@ -1,4 +1,4 @@
-[![Course Logo](https://raw.githubusercontent.com/Nodonisko/git-workshop/master/logo.jpg)](Course Logo)
+[Webdev Git Course](https://i.imgur.com/uEUKqAl.jpg)
 # Naučte se konečně Git - Git Workshop
 v0.2
 
