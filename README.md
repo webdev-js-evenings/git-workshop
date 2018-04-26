@@ -1,43 +1,29 @@
 ![Webdev Git Course](https://i.imgur.com/uEUKqAl.jpg)
 # Naučte se konečně Git — Git Workshop
-v0.2
+v0.3
 
 ## O kurzu
 Naučíme vás používat Git, abyste byli schopni všech základních operacích a budete rozumět všem základním pojmům.
-Kromě toho se dostaneme i k těm složitějším věcem, jako je například rebasování, mergování, řešení konfliktů, úprava commitů
-a to i těch hluboko v historii.
+Kromě toho se dostaneme i k těm složitějším věcem, jako je například rebasování, mergování, řešení konfliktů, úprava commitů a to i těch hluboko v historii.
 
 ## O nás
-Webdev / JS evenings klub byl založený Nikitou Mironovem. Nikita začínal učit Javascript a pak na něj navázal Honza Václavík a Dan Rys s jejich
-kurzem vývojem mobilních aplikací v Ionicu.
+Webdev / JS evenings klub byl založený Nikitou Mironovem. Nikita začínal učit Javascript a pak na něj navázal Honza Václavík a Dan Rys s jejich kurzem vývojem mobilních aplikací v Ionicu. Měli jsme taky kurt o Reactu a Vojta Tranta se proslavil ([@iVojta](https://twitter.com/ivojta)) velice úspěšným kurzem o Gitu. Teď se to pokusí zopakovat [Jakub Žitný](http://twitter.com/jakubzitny).
 
-Teď jsem na řadě já Vojta Tranta ([@iVojta](https://twitter.com/ivojta)), JS vývojář v [Avocode](https://avocode.com/).
+## Začněte
+1. [Quick start, commit, GitHub a branche](./notes-1.md)
+2. Branch, merge, rebase a workflow s Gitem
+3. Best practices, Advanced config
+4. Git internals
 
-Po mně následuje Petr a jeho kurz o automatizaci vývoje.
 
-Za to, že umím git vděčím hlavně chlapcům [@lukas_rychtecky](https://twitter.com/lukasrychtecky) a [@jankuca](https://twitter.com/jankuca)
-
-## Začněte:
+## Materiály 2017
 1. [Git, Commit a branch](./commit-branch.md)
 2. [Git Flow](./git-flow.md)
 3. [Advanced Git](./advanced.md)
-
-## Díky
-Přišlo Vás opravdu hodně a my Vám za to děkujeme.
-Git workshop se tedy bude opakovat :)
-Video bude za ~týden.
-Následuje kurz automatizace vývoje.
-Díky
-
-Vojta Tranta<br />
-[Webdev/JS Evenings](https://www.facebook.com/groups/webdevjs/?fref=ts)<br />
-[Avocode](https://avocode.com/)<br />
-[@iVojta](https://twitter.com/ivojta)<br />
-[vojta.tranta@gmail.com](vojta.tranta@gmail.com)<br />
 
 ## Credits
 - [Webdev/JS Evenings](https://www.facebook.com/groups/webdevjs/?fref=ts) + [Avocode](https://avocode.com/)
 - [Nikita Mironov](https://www.facebook.com/why7e?fref=hovercard) ([Avocode](https://avocode.com/))
 - [Vojta Tranta](https://www.facebook.com/vojta.tranta) ([Avocode](https://avocode.com/))
-- [Jakub Žitný](https://fb.com/zitny) ([Avocode](https://avocode.com/))
+- [Jakub Žitný](http://twitter.com/jakubzitny) ([Avocode](https://avocode.com/))
 - [Magda Tlučhořová](https://www.facebook.com/magdalena.tluchorova?fref=ts) ([Alza.cz](https://www.alza.cz/))
