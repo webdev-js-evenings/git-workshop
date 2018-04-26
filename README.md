@@ -1,4 +1,4 @@
-[Webdev Git Course](https://i.imgur.com/uEUKqAl.jpg)
+![Webdev Git Course](https://i.imgur.com/uEUKqAl.jpg)
 # Naučte se konečně Git - Git Workshop
 v0.2
 
