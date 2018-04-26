@@ -1,5 +1,5 @@
 ![Webdev Git Course](https://i.imgur.com/uEUKqAl.jpg)
-# Naučte se konečně Git - Git Workshop
+# Naučte se konečně Git — Git Workshop
 v0.2
 
 ## O kurzu
@@ -24,13 +24,9 @@ Za to, že umím git vděčím hlavně chlapcům [@lukas_rychtecky](https://twit
 
 ## Díky
 Přišlo Vás opravdu hodně a my Vám za to děkujeme.
-
 Git workshop se tedy bude opakovat :)
-
 Video bude za ~týden.
-
 Následuje kurz automatizace vývoje.
-
 Díky
 
 Vojta Tranta<br />
@@ -40,6 +36,8 @@ Vojta Tranta<br />
 [vojta.tranta@gmail.com](vojta.tranta@gmail.com)<br />
 
 ## Credits
-- [Nikita Mironov](https://www.facebook.com/why7e?fref=hovercard)
-- [Magda Tlučhořová](https://www.facebook.com/magdalena.tluchorova?fref=ts)
-- [Alza.cz](https://www.alza.cz/)
+- [Webdev/JS Evenings](https://www.facebook.com/groups/webdevjs/?fref=ts) + [Avocode](https://avocode.com/)
+- [Nikita Mironov](https://www.facebook.com/why7e?fref=hovercard) ([Avocode](https://avocode.com/))
+- [Vojta Tranta](https://www.facebook.com/vojta.tranta) ([Avocode](https://avocode.com/))
+- [Jakub Žitný](https://fb.com/zitny) ([Avocode](https://avocode.com/))
+- [Magda Tlučhořová](https://www.facebook.com/magdalena.tluchorova?fref=ts) ([Alza.cz](https://www.alza.cz/))
