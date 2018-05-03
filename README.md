@@ -13,7 +13,7 @@ Webdev / JS evenings klub byl založený Nikitou Mironovem. Nikita začínal uč
 ## Začněte
 0. [Anketa](https://goo.gl/forms/2PIifjHxIvFjNUCE2)
 1. [Quick start, commit, GitHub a branche](./notes-1.md)
-2. Branch, merge, rebase a workflow s Gitem
+2. [Branch, merge, rebase a workflow s Gitem](./notes-2.md)
 3. Best practices, Advanced config
 4. Git internals
 
