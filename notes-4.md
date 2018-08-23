@@ -28,8 +28,18 @@
 
 
 ## Hooks
+- local hooks
+  - pre-commit
+  - prepare-commit-msg
+  - commit-msg
+  - post-commit
+  - post-checkout
+  - pre-rebase
+- server hooks
+  - pre-receive
+  - update
+  - post-receive
 - hooks for tests
-- various kinds of hooks
 - gitlab example
 - github ci example
 
